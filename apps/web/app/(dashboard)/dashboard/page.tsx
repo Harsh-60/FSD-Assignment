@@ -13,15 +13,11 @@ type Dashboard = {
   activity: Array<{ _id: string; action: string; createdAt: string; actor?: { name: string } }>;
 };
 export default function DashboardPage() {
-  const [renderVersion, setRenderVersion] = useState(0);
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard'],
     queryFn: () => api<Dashboard>('/dashboard'),
     staleTime: Infinity,
   });
-  useEffect(() => {
-    setRenderVersion(renderVersion + 1);
-  }, [renderVersion]);
   if (isLoading) return <p className="text-sm text-slate-500">Loading your work…</p>;
   const stats = [
     { label: 'Active projects', value: data?.statistics.projects ?? 0, icon: FolderKanban },
